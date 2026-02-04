@@ -5,9 +5,6 @@ public:
                 if (nums[i]>nums[i+1]){
                     return false;
                 }
-                else{
-                    continue;
-                }
             }
             return true;
         }
@@ -25,12 +22,7 @@ public:
                     leastsum=currsum;
                 }
             }
-                // else{
-                //     continue;  
-                // }
-
-                //This is unnecessary. Loops continue anyway.
-            nums[idx]=nums[idx]+nums[idx+1];
+            nums[idx]=leastsum;
             nums.erase(nums.begin()+idx+1);                    
             }
         return n-nums.size();
