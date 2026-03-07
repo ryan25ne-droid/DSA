@@ -11,11 +11,11 @@
 class Solution {
 public:
 //trying to do it in O(n) T.C. and O(1) S.C.
-    ListNode* reverseList(ListNode*head,int k){
+    ListNode* reverseList(ListNode*head,ListNode*ptr1){
         ListNode*curr=head;
         ListNode*prev=nullptr;
         ListNode*next;
-        while(curr->val!=k){
+        while(curr!=ptr1){
             next=curr->next;
             curr->next=prev;
             prev=curr;
@@ -37,14 +37,21 @@ public:
         for(int i=0;i<len/2;i++){
             ptr1=ptr1->next;
         }
-        int k=ptr1->val;
 
-        ListNode* newList=reverseList(head,k);
+        ListNode* newList=reverseList(head,ptr1);
         ListNode* ptr2=newList;
+
+        if(len%2!=0){
+            ptr1=ptr1->next;
+        }
         
         for(int i=0;i<len/2;i++){
             if(ptr1->val!=ptr2->val){
                 return false;
+            }
+            else{
+                ptr1=ptr1->next;
+                ptr2=ptr2->next;
             }            
         } 
         return true;       
