@@ -12,11 +12,9 @@ class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
         
-    // Edge cases: if one list is empty, return the other
     if (!list1) return list2;
     if (!list2) return list1;
 
-    // 1. Pick the starting head
     ListNode* head; 
     if (list1->val <= list2->val) {
         head = list1;
@@ -26,7 +24,6 @@ public:
         list2 = list2->next;
     }
 
-    // 2. 'prev' is our stitching needle
     ListNode* prev = head;
 
     while (list1 && list2) {
@@ -40,8 +37,12 @@ public:
         prev = prev->next;        // Move needle forward
     }
 
-    // 3. Attach the remaining nodes
-    prev->next = list1 ? list1 : list2;
+    if(list1==nullptr){
+        prev->next=list2;
+    }
+    else{
+        prev->next=list1;
+    }
 
     return head;
     }
