@@ -11,8 +11,8 @@ The repository is automated using Leethub. Each problem is categorized by its di
 ## Progress Tracker
 | Difficulty | Solved |
 |------------|--------|
-| 🟢 Easy    | 10      |
-| 🟡 Medium  | 7     |
+| 🟢 Easy    | 14      |
+| 🟡 Medium  | 10     |
 | 🔴 Hard    | 3      |
 
 I will update this table weekly as I progress.
