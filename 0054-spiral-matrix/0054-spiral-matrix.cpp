@@ -1,45 +1,41 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int n=matrix.size(); 
-        int m=matrix[0].size();
+        if (matrix.empty()) return {};
+        
+        int top = 0, bottom = matrix.size() - 1;
+        int left = 0, right = matrix[0].size() - 1;
         vector<int> ans;
-        int left=0;
-        int right=m-1;
-        int top=0;
-        int bottom=n-1;
-        while(left<right && top<bottom){
-            for(int i=left;i<right;i++){
+
+        while (top <= bottom && left <= right) {
+            // 1. Traverse Right
+            for (int i = left; i <= right; i++) {
                 ans.push_back(matrix[top][i]);
             }
-            for(int i=top;i<bottom;i++){
+            top++; // Move the top boundary down
+
+            // 2. Traverse Down
+            for (int i = top; i <= bottom; i++) {
                 ans.push_back(matrix[i][right]);
             }
-            for(int i=right;i>left;i--){
-                ans.push_back(matrix[bottom][i]);
+            right--; // Move the right boundary left
+
+            // 3. Traverse Left (Only if a row still exists)
+            if (top <= bottom) {
+                for (int i = right; i >= left; i--) {
+                    ans.push_back(matrix[bottom][i]);
+                }
+                bottom--; // Move the bottom boundary up
             }
-            for(int i=bottom;i>top;i--){
-                ans.push_back(matrix[i][left]);
-            }
-            left++;
-            right--;
-            top++;
-            bottom--;
-        }
-        if(top<bottom){ //left==right
-            for(int i=top;i<=bottom;i++){
-                ans.push_back(matrix[i][left]);
-            }
-        }
-        if(left<right){ //top==bottom
-            for(int i=left;i<=right;i++){
-                ans.push_back(matrix[top][i]);
+
+            // 4. Traverse Up (Only if a column still exists)
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--) {
+                    ans.push_back(matrix[i][left]);
+                }
+                left++; // Move the left boundary right
             }
         }
-        //this takes into account the last element remaining in cases of square matrices, similar to the Q 59
-        if(top==bottom && left==right){ 
-            ans.push_back(matrix[top][left]);
-        } 
         return ans;
     }
 };
