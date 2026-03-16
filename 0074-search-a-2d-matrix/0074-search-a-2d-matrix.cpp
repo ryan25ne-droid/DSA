@@ -17,11 +17,10 @@ public:
         int start=0,end=n-1;
         while(start<=end){
             int mid=start+(end-start)/2;
-            int curr=matrix[row][mid];
-            if(curr==target){
+            if(matrix[row][mid]==target){
                 return true;
             }
-            else if(curr<target){
+            else if(matrix[row][mid]<target){
                 start=mid+1;
             }
             else{
