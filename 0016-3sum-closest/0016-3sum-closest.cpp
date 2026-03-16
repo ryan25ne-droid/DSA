@@ -12,7 +12,9 @@ public:
         int closestSum = nums[0] + nums[1] + nums[2];
         
         for (int i = 0; i < n - 2; i++) {
-            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
 
             // OPTIMIZATION: Pruning
             int minSum = nums[i] + nums[i+1] + nums[i+2];
@@ -20,8 +22,7 @@ public:
                 if (abs(minSum - target) < abs(closestSum - target)){
                     closestSum = minSum;
                 }
-             // Since nums is sorted, any further start/end for this i 
-            // will only produce LARGER sums, moving further from target.Hence we exit this iteration for this i.
+             // Since nums is sorted, any further start/end for every i value greather than this i will only produce LARGER sums, moving further from target.Hence we exit the entire loop at this value of i, and the closest sum to target has already been seen in the iterations done before.
                 break; 
             }
 
@@ -30,13 +31,15 @@ public:
                 if (abs(maxSum - target) < abs(closestSum - target)){
                     closestSum=maxSum;
                 } 
-                // Any other start/end for this i will produce smaller sums than maxSum.
-                break;
+                // Any other start/end for this i will produce smaller sums than maxSum. And diff will increase. But subsequent i may have a sum closer to target, because when we add greater element in sum, it will increase and can go closer to the target.
+                continue;
             }
             int start = i + 1, end = n - 1;
             while (start < end) {
                 int currSum = nums[i] + nums[start] + nums[end];
-                if (currSum == target) return target;
+                if (currSum == target) {
+                    return target;
+                }
 
                 if (abs(currSum - target) < abs(closestSum - target)) {
                     closestSum = currSum;
