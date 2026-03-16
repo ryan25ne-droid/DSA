@@ -1,3 +1,8 @@
+auto fast_io = []() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    return 0;
+}();
 class Solution {
 public:
     int threeSumClosest(vector<int>& nums, int target) {
@@ -12,17 +17,21 @@ public:
             // OPTIMIZATION: Pruning
             int minSum = nums[i] + nums[i+1] + nums[i+2];
             if (minSum > target) {
-                if (abs(minSum - target) < abs(closestSum - target)) closestSum = minSum;
+                if (abs(minSum - target) < abs(closestSum - target)){
+                    closestSum = minSum;
+                }
              // Since nums is sorted, any further start/end for this i 
-            // will only produce LARGER sums, moving further from target.
-                continue; 
+            // will only produce LARGER sums, moving further from target.Hence we exit this iteration for this i.
+                break; 
             }
 
             int maxSum = nums[i] + nums[n-2] + nums[n-1];
             if (maxSum < target) {
-                if (abs(maxSum - target) < abs(closestSum - target)) closestSum = maxSum;
+                if (abs(maxSum - target) < abs(closestSum - target)){
+                    closestSum=maxSum;
+                } 
                 // Any other start/end for this i will produce smaller sums than maxSum.
-                continue;
+                break;
             }
             int start = i + 1, end = n - 1;
             while (start < end) {
