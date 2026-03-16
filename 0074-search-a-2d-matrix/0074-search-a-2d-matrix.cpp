@@ -11,7 +11,7 @@ public:
             return false;
         } 
         int row=0;
-        while(target>matrix[row][n-1] &&row<m){
+        while(target>matrix[row][n-1]){
             row++;
         }
         int start=0,end=n-1;
@@ -22,10 +22,10 @@ public:
                 return true;
             }
             else if(curr<target){
-                start=mid;
+                start=mid+1;
             }
             else{
-                end=mid;;
+                end=mid-1;
             }
         }
         return false;  
