@@ -19,7 +19,7 @@ public:
         ListNode* ptr2=dummy;
         while(ptr1!=nullptr){
             ListNode* track=ptr1->next; //track the original list untouched
-            ptr2=dummy //reset ptr2 to the start of sorted ll at every iteration
+            ptr2=dummy; //reset ptr2 to the start of sorted ll at every iteration
             while(ptr2->next!=nullptr && ptr2->next->val<ptr1->val){
                 ptr2=ptr2->next;
             }
