@@ -10,39 +10,53 @@
  */
 class Solution {
 public:
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
-        int n=lists.size();
-        if(n==0){
-            return nullptr;
+    ListNode* merge(ListNode* ptr1, ListNode* ptr2){
+        ListNode* dummy= new ListNode(0);
+        ListNode*tail=dummy;
+        if (!ptr1){
+            return ptr2;
         }
-        if(n==1){
-            return lists[0];
+        if (!ptr2){
+            return ptr1;
         }
-        ListNode* ptr1=lists[0];
-        ListNode* dummy=new ListNode(0); //to keep track of the head of the merged list, which is dummy->next
         
-        for(int i=1;i<n;i++){
-            ListNode* ptr2=lists[i];
-            ListNode*curr=dummy; //for traversing the list
-            while(ptr1!=nullptr &&ptr2!=nullptr){
-                if(ptr1->val<=ptr2->val){
-                    curr->next=ptr1;
-                    ptr1=ptr1->next;
-                }
-                else{
-                    curr->next=ptr2;
-                    ptr2=ptr2->next;
-                }
-                curr=curr->next;
-            }
-            if(ptr1!=nullptr){
-                curr->next=ptr1;
+        while(ptr1!=nullptr &&ptr2!=nullptr){
+            if(ptr1->val<=ptr2->val){
+                tail->next=ptr1;
+                ptr1=ptr1->next;
             }
             else{
-                curr->next=ptr2;
+                tail->next=ptr2;
+                ptr2=ptr2->next;
             }
-            ptr1=dummy->next;
+            tail=tail->next;
         }
+        tail->next=(ptr1!= nullptr)? ptr1:ptr2;
         return dummy->next;
+    }
+
+    ListNode* helper(vector<ListNode*>& lists, int start, int end) {
+// Base Case 1- No lists in this range
+        if (start > end){
+            return nullptr;
+        }
+// Base Case 2: Only one list left - it's already sorted!
+        if (start == end){
+            return lists[start];
+        }
+        int mid = start+ (end - start)/2;
+
+        // Divide: Split the vector range, not the nodes
+        ListNode* left = helper(lists, start, mid);
+        ListNode* right = helper(lists, mid + 1, end);
+
+        // Conquer: Merge the two results
+        return merge(left, right);
+    }
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if (lists.empty()) {
+            return nullptr;
+        }
+        return helper(lists, 0, lists.size() - 1);        
     }
 };
