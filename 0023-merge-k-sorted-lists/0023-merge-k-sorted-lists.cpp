@@ -8,18 +8,17 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+ auto fast_io = []() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    return 0;
+}();
 class Solution {
 public:
     ListNode* merge(ListNode* ptr1, ListNode* ptr2){
         ListNode* dummy= new ListNode(0);
         ListNode*tail=dummy;
-        if (!ptr1){
-            return ptr2;
-        }
-        if (!ptr2){
-            return ptr1;
-        }
-        
+                
         while(ptr1!=nullptr &&ptr2!=nullptr){
             if(ptr1->val<=ptr2->val){
                 tail->next=ptr1;
