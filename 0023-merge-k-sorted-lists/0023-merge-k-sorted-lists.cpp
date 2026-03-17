@@ -35,17 +35,13 @@ public:
     }
 
     ListNode* helper(vector<ListNode*>& lists, int start, int end) {
-// Base Case 1- No lists in this range
-        if (start > end){
-            return nullptr;
-        }
-// Base Case 2: Only one list left - it's already sorted!
+
+// Base Case- Only one list left (already sorted)
         if (start == end){
             return lists[start];
         }
-        int mid = start+ (end - start)/2;
-
-        // Divide: Split the vector range, not the nodes
+        int mid=start+(end-start)/2;
+// Divide: Split the vector range, not the nodes
         ListNode* left = helper(lists, start, mid);
         ListNode* right = helper(lists, mid + 1, end);
 
