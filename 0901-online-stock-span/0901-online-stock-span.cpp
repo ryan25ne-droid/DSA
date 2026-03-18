@@ -1,20 +1,18 @@
 class StockSpanner {
 public:
-    vector<int> prices; //stores the prices
-    stack<int> st; // stores indices
+    stack<pair<int,int>> st; // (price,index)
 
     StockSpanner() {}
 
     int next(int price) {
-        int i = prices.size(); //idx of current day is by looking all the days which have come before it
-        prices.push_back(price);
-
-        while (!st.empty() && prices[st.top()] <= price) {
+        int span = 1;
+    // Pop all smaller or equal prices
+        while (!st.empty() && st.top().first <= price) {
+            span += st.top().second;
             st.pop();
         }
-        int span = st.empty() ? (i + 1) : (i - st.top());
-        st.push(i);
-        return span;        
+    st.push({price, span});
+    return span;       
     }
 };
 
