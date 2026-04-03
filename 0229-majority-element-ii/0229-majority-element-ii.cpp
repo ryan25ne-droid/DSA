@@ -1,18 +1,48 @@
+//Boyer Moore Algo for 2 elements (because understand only 2 elements can have a frequency >n/3) 
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
-        vector<int>ans;
-        unordered_map<int,int> m;
-        for(int i=0;i<nums.size();i++){
-            m[nums[i]]++;
-        }
-
-        int freq=nums.size()/3;
-        for(auto p:m){
-            if(p.second>freq){
-                ans.push_back(p.first);
+        int cand1 = 0, cand2 = 0, count1 = 0, count2 = 0;
+        
+        for (int num : nums) {
+            if(num == cand1){
+                count1++;
+            }
+            else if(num == cand2){
+                count2++;
+            }
+            else if(count1 == 0){
+                cand1 = num;
+                count1 = 1;
+            }
+            else if(count2 == 0){
+                cand2 = num; 
+                count2 = 1;
+            }
+            else{
+                count1--; 
+                count2--;
             }
         }
-        return ans;        
+        
+        count1=count2=0;
+        for (int ele : nums) {
+            if(ele == cand1){
+                count1++;
+            }
+            else if(ele == cand2){
+                count2++;
+            }
+        }
+        
+        vector<int> ans;
+        int freq = nums.size()/3;
+        if (count1 >freq){
+            ans.push_back(cand1);
+        }
+        if (count2 >freq){
+            ans.push_back(cand2);
+        }        
+        return ans;
     }
 };
