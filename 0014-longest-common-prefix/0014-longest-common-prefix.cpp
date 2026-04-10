@@ -42,13 +42,20 @@ public:
         for(auto ele:strs){
             trie.insert(ele);
         }
-        string key=strs[0];
+        // string key=strs[0];
+        // Node*temp=trie.root;
+        // int i=0;
+        // while(temp->children.size()==1 &&temp->endOfword!=true){
+        //     temp=temp->children[key[i]];
+        //     ans+=key[i];
+        //     i++;
+        // }
+//this is correct but there is other way
         Node*temp=trie.root;
-        int i=0;
-        while(temp->children.size()==1 &&temp->endOfword!=true){
-            temp=temp->children[key[i]];
-            ans+=key[i];
-            i++;
+        while(temp->children.size()==1 && temp->endOfword!=true){
+            ans+=temp->children.begin()->first;
+            temp=temp->children.begin()->second;
+        //temp->chiildren.begin() returns the first element of map. and since map has only one element...
         }
 
         return ans;
