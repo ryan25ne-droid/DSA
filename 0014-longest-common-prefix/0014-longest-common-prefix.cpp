@@ -47,8 +47,8 @@ public:
         int i=0;
         while(temp->children.size()==1 &&temp->endOfword!=true){
             temp=temp->children[key[i]];
-            i++;
             ans+=key[i];
+            i++;
         }
 
         return ans;
