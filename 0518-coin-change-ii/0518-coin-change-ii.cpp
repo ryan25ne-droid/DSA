@@ -10,9 +10,9 @@ public:
 
     dp[0]=1; //there is 1 way of achieving 0 target by excluding every coin
     
-    for(int c:coins){
-        for(int j=c;j<=target;j++){  //start j from c so that j-c never becomes -ve and you avoid acccessing -ve indexes of dp array.
-            dp[j]+=dp[j-c];
+    for(int i=0;i<n;i++){
+        for(int j=coins[i];j<=target;j++){  //start j from c so that you avoid acccessing -ve indexes of dp array.
+            dp[j]+=dp[j-coins[i]];
         }
     }
     return dp[target];        
