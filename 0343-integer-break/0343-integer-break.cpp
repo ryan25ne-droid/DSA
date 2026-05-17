@@ -1,7 +1,7 @@
 class Solution {
 public:
     int integerBreak(int n) {
-        vector<int>dp(n+1,0); //dp[i] stores the max possible product possible from the number i. 
+        vector<int>dp(n+1,1); //dp[i] stores the max possible product possible from the number i. 
 
         dp[1]=1; //base case
         for(int i=2;i<n+1;i++){
