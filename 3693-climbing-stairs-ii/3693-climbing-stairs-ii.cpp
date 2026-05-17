@@ -1,7 +1,8 @@
 class Solution {
 public:
-    int helper(int n,vector<int>&costs, vector<int>&dp){
-        //n=1 or n=2 wale cases error dete han
+    int climbStairs(int n,vector<int>&costs){
+        vector<int>dp(n+1,-1); //dp[i] denotes the minimum cost to reach step i.
+//n=1 or n=2 wale cases error dete han
         if(n==1){
             return costs[0]+1;
         }
@@ -16,9 +17,5 @@ public:
             dp[i]=costs[i-1]+min(1+dp[i-1],min(4+dp[i-2],9+dp[i-3]));
         }
         return dp[n];
-    }
-    int climbStairs(int n, vector<int>& costs) {
-        vector<int>dp(n+1,-1);
-        return helper(n,costs,dp);                
     }
 };
