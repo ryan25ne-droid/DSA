@@ -1,3 +1,10 @@
+static auto fast_io = []() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    return 0;
+    }();
+
 class Node{
 public:
     unordered_map<char,Node*> children;
@@ -8,8 +15,8 @@ public:
 };
 
 class Trie{
-    Node*root;
 public:
+    Node*root;
     Trie(){
         root= new Node();
     }
@@ -41,29 +48,34 @@ public:
 
 class Solution {
 public:
-    bool helper2(Trie& trie, string str, unordered_map<string,int>& dp) {
-        if (str.empty()) return true;
-
-        if (dp.count(str)) return dp[str]; // memoized result
-
-        int n = str.size();
-        for (int i = 0; i < n; i++) {
-            string prefix = str.substr(0, i+1);
-            string suffix = str.substr(i+1);
-
-            if (trie.search(prefix) && helper2(trie, suffix, dp)) {
-                return dp[str] = true;
-            }
-        }
-        return dp[str] = false;
-    }
-
     bool wordBreak(string s, vector<string>& wordDict) {
         Trie trie;
-        for (string &ele : wordDict) {
+        for (string &ele : wordDict){
             trie.insert(ele);
         }
-        unordered_map<string,int> dp;
-        return helper2(trie, s, dp);
+
+        int n = s.size();
+        vector<bool> dp(n+1, false);
+        dp[0] = true;
+
+        for (int i = 0; i < n; i++) {
+            if (!dp[i]){
+                continue;
+            }
+            Node* node = trie.root;
+            for (int j = i;j < n; j++) {
+                if (node->children.count(s[j]) == 0){
+                    break;
+                }
+                node = node->children[s[j]];
+                if (node->endOfword){
+                    dp[j+1] = true;
+                }
+                if(dp[n]==true){
+                    return dp[n];  //early exit
+                }
+            }
+        }
+        return dp[n];
     }
 };
