@@ -1,36 +1,38 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        int ptr1=0;
-        int ptr2=0;
-        int n=nums1.size();
-        int m=nums2.size();
-        vector<int>array(n+m,0);
-        int ptr3=0;
-        while(ptr1<n && ptr2<m){
-            if(nums1[ptr1]<nums2[ptr2]){
-                array[ptr3]=nums1[ptr1];
-                ptr1++;
-            }
-            else{
-                array[ptr3]=nums2[ptr2];
-                ptr2++;
-            }
-            ptr3++;
-        } 
-        while(ptr1<n){
-            array[ptr3]=nums1[ptr1];
-            ptr3++;
-            ptr1++;
-        } 
-        while(ptr2<m){
-            array[ptr3]=nums2[ptr2];
-            ptr3++;
-            ptr2++;
-        }   
-        if((n+m)%2!=0){
-            return array[(n+m)/2];
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2){
+        if (nums1.size()> nums2.size()){
+            return findMedianSortedArrays(nums2, nums1);
         }
-        return (array[(n+m)/2-1]+array[(n+m)/2])/2.0; //careful with no of elements and indexing of an array
+
+        int n= nums1.size();
+        int m= nums2.size();
+        int start= 0, end= n;
+
+        while (start<= end){
+            int i= (start+ end) / 2;          // partition in nums1
+            int j= (n+m+1)/2-i;        // partition in nums2
+
+            int L1= (i==0) ? INT_MIN: nums1[i-1];
+            int R1= (i==n) ? INT_MAX: nums1[i];
+            int L2= (j==0) ? INT_MIN: nums2[j-1];
+            int R2= (j==m) ? INT_MAX: nums2[j];
+
+            if (L1<= R2 && L2<= R1){
+                if ((n+m)% 2 == 0){
+                    return (max(L1, L2)+ min(R1, R2))/2.0;
+                }
+                else{
+                    return max(L1, L2);
+                }
+            } 
+            else if (L1>R2) {
+                end= i-1;
+            }
+            else {
+                start= i+1;
+            }
+        }
+        return -1; // should never reach here
     }
 };
