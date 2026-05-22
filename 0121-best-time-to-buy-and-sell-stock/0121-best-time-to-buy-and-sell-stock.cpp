@@ -7,7 +7,7 @@ public:
         int profit=0;
         dp[0]=prices[0];
         for(int i=1;i<n;i++){
-            dp[i]=min(dp[i-1],prices[i]);
+            dp[i]=min(dp[i-1],prices[i-1]);
         }
         for(int i=0;i<n;i++){
             profit=max(profit,prices[i]-dp[i]);
