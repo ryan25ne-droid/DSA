@@ -1,23 +1,21 @@
 class Solution {
 public:
-    int maxProfit(vector<int>& prices){
+    int maxProfit(vector<int>& prices) {
         int n=prices.size();
-        vector<vector<int>>dp(n+1,vector<int>(5,-1));
-        //dp[i][j] represents max profit upto day i for state j. j=3 means you haven't buyed anything yet. j=2 means you have buyed one stock now. j=2 means you sold the 1st stock. j=1 means you buyed your last stock. j=0 means you sold your last stock. You can't do anything now/
+        vector<int> next(5,0);  //keeps track of the best profits upto the
+// next day. Cause we only need to know the payoffs upto the immediate next day(which accounts all the other forward days payoffs) to decide the current day payoff.
 
-        for(int i=0;i<n+1;i++){
-            dp[i][0]=0;
+        vector<int> curr(5,0);
+
+        for(int i=n-1; i>=0; i--){
+            curr[4]= max(next[4], next[3]-prices[i]); // second buy
+            curr[3]= max(next[3], next[2]+prices[i]); // first sell
+            curr[2]= max(next[2], next[1]-prices[i]); // first buy
+            curr[1]= max(next[1], next[0]+prices[i]); // second sell
+            curr[0]= 0; // no transactions
+            next= curr;
         }
 
-        dp[n][4]=dp[n][3]=dp[n][2]=dp[n][1]=dp[n][0]=0;
-
-        for(int i=n-1;i>=0;i--){
-            dp[i][4]= max(dp[i+1][4], dp[i+1][3]-prices[i]);
-            dp[i][3]= max(dp[i+1][3],dp[i+1][2]+prices[i]);
-            dp[i][2]= max(dp[i+1][2],dp[i+1][1]-prices[i]);
-            dp[i][1]= max(dp[i+1][1],dp[i+1][0]+prices[i]);
-        }
-
-        return dp[0][4];
+        return next[4]; // max profit after at most 2 transactions
     }
 };
