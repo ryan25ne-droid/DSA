@@ -2,14 +2,16 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices, int fee) {
         int n=prices.size();
-        vector<vector<int>>dp(n+1,vector<int>(2,-1));
-//dp[i][j] represents max profit possible upto day i and state j.
-        dp[n][0]=dp[n][1]=0;
+        vector<int>curr(2,0);
+        vector<int>ahead(2,0);
+//
+        ahead[0]=ahead[1]=0;
         for(int i=n-1;i>=0;i--){
-            dp[i][0]=max(dp[i+1][0], dp[i+1][1]+prices[i]- fee);
-            dp[i][1]=max(dp[i+1][1],dp[i+1][0]-prices[i]);
+            curr[1]=max(ahead[1], ahead[0]-prices[i]);
+            curr[0]=max(ahead[0], ahead[1]+prices[i]-fee);
+            ahead=curr;            
         } 
-        return dp[0][1];        //start at day 0, allowed to buy       
+        return curr[1];        //start at day 0, allowed to buy       
     }
 };
         
