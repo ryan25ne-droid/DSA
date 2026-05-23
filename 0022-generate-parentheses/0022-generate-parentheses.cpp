@@ -1,37 +1,26 @@
 class Solution {
-public: 
-    vector<string> helper(vector<vector<vector<string>>>&dp, int i, int j){
-        if(dp[i][j].empty()!=true){
-            return dp[i][j];
+public:
+    void helper(string &paren, vector<string>& ans, int open, int close) {
+        if (open == 0 && close == 0) {
+            ans.push_back(paren);
+            return;
         }
-        else if(i==0 &&j==0){
-            dp[i][j].push_back("");
-            return dp[i][j];
+        if (open > 0) {
+            paren.push_back('(');
+            helper(paren, ans, open-1, close+1);
+            paren.pop_back();
         }
-        if(i==0 && j>0){
-            for(auto& ele:helper(dp,i,j-1)){
-                dp[i][j].push_back(")"+ ele);
-            }
+        if (close > 0) {
+            paren.push_back(')');
+            helper(paren, ans, open, close-1);
+            paren.pop_back();
         }
-        else if(i>0 && j==0){
-            for(auto&ele :helper(dp,i-1,j+1)){
-                dp[i][j].push_back("("+ele);
-            }
-        }
-        else{ //i and j non zero
-            for(auto&ele: helper(dp,i-1,j+1)){
-                dp[i][j].push_back("("+ele);
-            }
-            for(auto&ele:helper(dp,i,j-1)){
-                dp[i][j].push_back(")"+ele);
-            }
-        }
-        return dp[i][j];
     }
-    
-    vector<string> generateParenthesis(int n){
-        vector<vector<vector<string>>> dp(n+1,vector<vector<string>>(n+1));      
-//dp[i][j] means possible unique strings given i no of open parenthesis remaining with us and j is no of (open parenthesis-close parenthesis). i starts from n and as soon as it reaches 0 we can only print closed parenthesis. When j=0, you can only print open parenthesis.
-        return helper(dp,n,0);        
+
+    vector<string> generateParenthesis(int n) {
+        vector<string> ans;
+        string paren;
+        helper(paren, ans, n, 0);
+        return ans;
     }
 };
