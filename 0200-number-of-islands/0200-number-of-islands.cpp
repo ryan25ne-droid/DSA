@@ -5,25 +5,17 @@
 class Solution {
 public:
     void helper(int i, int j, int n, int m, vector<vector<bool>>&visited, vector<vector<char>>& grid){
-        queue<pair<int,int>> q;
-        q.push({i,j});
+        
         visited[i][j]=true;
-        while(!q.empty()){
-            int row=q.front().first;
-            int col=q.front().second;
-            q.pop();
-            int dir[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
-            
-            for(auto &v: dir){
-                int nrow= row+v[0];
-                int ncol= col+v[1];
-                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m &&grid[nrow][ncol]=='1' && !visited[nrow][ncol]){
-                    q.push({nrow,ncol});
-                    visited[nrow][ncol]=true;
-                } 
-            }            
+
+        int dir[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
+        for(auto& v:dir){
+            int nrow= i+v[0];
+            int ncol= j+v[1];
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m &&grid[nrow][ncol]=='1' && !visited[nrow][ncol]){
+                helper(nrow,ncol,n,m,visited,grid);
+            }
         }
-        return;
     }
     
     int numIslands(vector<vector<char>>& grid) {
