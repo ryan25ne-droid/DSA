@@ -4,31 +4,28 @@
 
 class Solution {
 public:
-    void helper(int i, int j,int n, int m, vector<vector<bool>>&visited, vector<vector<char>>&grid){
-
+    void helper(int i, int j, int n, int m, vector<vector<bool>>&visited, vector<vector<char>>& grid){
+        queue<pair<int,int>> q;
+        q.push({i,j});
         visited[i][j]=true;
-        // for (int delrow=-1; delrow<=1; delrow++){
-        //     for(int delcol=-1; delcol<=1;delcol++){
-        //         int ni=i+delrow;
-        //         int nj=j+delcol;
-        //         if(delrow==0 && delcol==0){
-        //             continue;  //skip the same cell to avoid infinite recursion
-        //         }
-        //         if(0<=ni && ni<n && 0<=nj && nj<m && grid[ni][nj]=='1' && !visited[ni][nj]){
-        //             helper(ni,nj,n,m,visited,grid);
-        //         }
-        //     }
-        // }
-        
-        int dirs[4][2] = {{1,0},{-1,0},{0,1},{0,-1}}; // down, up, right, left
-        for (auto& d:dirs) {
-            int ni=i+d[0], nj=j+d[1];
-            if (ni>=0 && ni<n && nj>=0 && nj<m && grid[ni][nj]=='1' && !visited[ni][nj]) {
-                helper(ni,nj,n,m,visited,grid);
-            }
+        while(!q.empty()){
+            int row=q.front().first;
+            int col=q.front().second;
+            q.pop();
+            int dir[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
+            
+            for(auto &v: dir){
+                int nrow= row+v[0];
+                int ncol= col+v[1];
+                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m &&grid[nrow][ncol]=='1' && !visited[nrow][ncol]){
+                    q.push({nrow,ncol});
+                    visited[nrow][ncol]=true;
+                } 
+            }            
         }
+        return;
     }
-
+    
     int numIslands(vector<vector<char>>& grid) {
         int n=grid.size();
         int m=grid[0].size();
