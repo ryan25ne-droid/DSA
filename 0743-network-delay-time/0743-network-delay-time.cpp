@@ -10,7 +10,11 @@ public:
         while(!pq.empty()){
             auto [d,u]= pq.top();
             pq.pop();
-//adj[u] is a vector of vectors of size 2 (wt,v) i,e, (weight, node)
+
+            if(d>dist[u]){
+                continue;
+            }
+
             for(auto& [wt,v]: adj[u]){
                 if(dist[v] > dist[u] +wt){
                     dist[v]=dist[u]+wt;
@@ -23,6 +27,7 @@ public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k){
 
         vector<vector<pair<int,int>>>adj(n+1);
+//adj[u] is a vector of vectors of size 2 (wt,v) i,e, (weight, node)
 
         for(auto&ele: times){
             int u= ele[0];
@@ -45,3 +50,11 @@ public:
         return Max;
     }
 };
+
+//In Dijkstra, whenever we find a shorter path to a node v, we push (dist[v],v) into the priority queue.
+
+//But we don’t remove the old entry (oldDist, v) that might already be in the queue.
+
+//So the queue can contain multiple entries for the same node, with different distances.
+
+//When we pop from the queue, we might get a stale entry (with a distance larger than the current best dist[v]).
