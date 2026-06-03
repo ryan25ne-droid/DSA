@@ -4,13 +4,18 @@ public:
     int orangesRotting(vector<vector<int>>& grid){
         int n=grid.size();
         int m=grid[0].size();
-        queue<vector<int>>q;
+        queue<tuple<int,int,int>>q;
 
 //initialisation at minute 0    
+        int fresh=0;  //keeps track of fresh oranges in our loop
+
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 if(grid[i][j]==2){
-                    q.push({i,j,0});
+                    q.push(make_tuple(i,j,0));
+                }
+                else if(grid[i][j]==1){
+                    fresh++;
                 }
             }
         } 
@@ -18,29 +23,33 @@ public:
         int minute=0;
 
         while(!q.empty()){
-            vector<int> v=q.front();
-            int row=v[0];
-            int col=v[1];
-            minute=v[2];
+            auto [row,col,t]= q.front();
+            minute=t;
+
             q.pop();
+
             int dir[4][2]= {{0,1},{1,0},{0,-1},{-1,0}};
             for(auto& ele:dir){
                 int nrow=row+ele[0];
                 int ncol=col+ele[1];
                 if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]==1){
                     grid[nrow][ncol]=2;
-                    q.push({nrow,ncol, minute+1});
+                    q.push(make_tuple(nrow,ncol, minute+1));
+                    fresh--;
                 }
             }
         }
 
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(grid[i][j]==1){
-                    return -1;
-                }
-            }
-        }
-        return minute;
+        // for(int i=0;i<n;i++){
+        //     for(int j=0;j<m;j++){
+        //         if(grid[i][j]==1){
+        //             return -1;
+        //         }
+        //     }
+        // }
+
+        return fresh==0 ? minute:-1;
     }
 };
+
+//use tuples. dynamically less heavy as compared to vectors
