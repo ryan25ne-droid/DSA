@@ -7,10 +7,12 @@ public:
 
     Disjoint_Set(int n){
         this->n=n;
+        parent.resize(n);
+        rank.resize(n);
 
         for(int i=0;i<n;i++){  //initialising the parent and rank vectors
-            parent.push_back(i);
-            rank.push_back(0);
+            parent[i]=i;
+            rank[i]=0;
         }
     }
 
