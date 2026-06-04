@@ -1,10 +1,12 @@
 class Solution {
 public:
+    static bool compareByDeadline(vector<int>& a, vector<int>& b) {
+    return a[1] < b[1];
+    }
+
     int scheduleCourse(vector<vector<int>>& courses){
-// Step 1: sort by deadline
-        sort(courses.begin(), courses.end(), [](auto &a, auto &b){
-            return a[1]< b[1];
-        });
+// Step 1: sort by deadline. lesser deadline comes first in sorting
+        sort(courses.begin(), courses.end(), compareByDeadline);
 
         priority_queue<int> maxHeap; // store durations in this
         int time=0;
