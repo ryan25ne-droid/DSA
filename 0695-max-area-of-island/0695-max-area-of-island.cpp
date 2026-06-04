@@ -33,6 +33,9 @@ public:
                         }
                     }
                     ans=max(ans,size);
+                    if(2*ans>n*m){
+                        return ans;
+                    }
                 }
             }
         } 
