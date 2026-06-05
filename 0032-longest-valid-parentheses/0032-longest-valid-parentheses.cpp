@@ -2,12 +2,11 @@
 class Solution {
 public:
     int longestValidParentheses(string s){
-        int n=s.size();
         int maxLen=0;
         stack<int>st;
         int lastValid=-1;
 
-        for(int i=0;i<n;i++){
+        for(int i=0; i<s.size(); i++){
             if(s[i]=='('){
                 st.push(i);
             } 
@@ -21,7 +20,7 @@ public:
                         maxLen=max(maxLen, i-st.top());
                     }
                 }
-                else{
+                else{  //if(stack is empty. the current index belongs to an unmatched ')' bracket).
                     lastValid=i;
                 }
             }           
@@ -30,3 +29,6 @@ public:
         return maxLen;      
     }
 };
+//lastValid is simply a marker for the last unmatched ')' index. Whenever we encounter an unmatched ')', the valid substring ends right there. Instead of pushing ')' into the stack, you record its index in lastInvalid.
+
+//The next valid substring can only start after this position.
