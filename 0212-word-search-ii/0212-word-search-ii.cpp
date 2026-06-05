@@ -30,6 +30,7 @@ public:
 class Solution {
 public:
      void helper(int i, int j,vector<vector<char>>&board, Node*node, vector<string>&ans, string& track){
+        static const int dir[4][2]={{0,1},{1,0},{0,-1},{-1,0}};
 
         char c=board[i][j];
         
@@ -46,7 +47,6 @@ public:
             // return; By returning immediately, we stop exploring further neighbors. If the current word is a prefix of another longer word, we miss those longer words. So we don’t return after finding a word. Mark it as used and continue DFS.
         }
 
-        int dir[4][2]={{0,1},{1,0},{0,-1},{-1,0}};
         for(auto&ele: dir){
             int nrow= i +ele[0];
             int ncol= j+ele[1];
