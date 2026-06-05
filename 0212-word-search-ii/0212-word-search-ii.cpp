@@ -29,7 +29,7 @@ public:
 
 class Solution {
 public:
-     void helper(int i, int j,int n, int m,vector<vector<char>>&board, vector<vector<bool>>&visited, Node*node, Trie&trie, vector<string>&ans, string& track){
+     void helper(int i, int j,vector<vector<char>>&board, Node*node, vector<string>&ans, string& track){
 
         char c=board[i][j];
         
@@ -37,8 +37,8 @@ public:
             return;  //failed to find the word
         }
         node=node->children[c]; //move into child node;
-        track+=c;
-        visited[i][j]=true; 
+        track.push_back(c);
+        board[i][j]='#';  //optimisation for visited boolean array
 
         if(node->endOfword){
             ans.push_back(track);
@@ -50,22 +50,19 @@ public:
         for(auto&ele: dir){
             int nrow= i +ele[0];
             int ncol= j+ele[1];
-            if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && !visited[nrow][ncol]){
-                helper(nrow,ncol,n,m,board,visited,node,trie,ans,track);                   
+            if(nrow>=0 && nrow<board.size() && ncol>=0 && ncol<board[0].size() && board[nrow][ncol]!='#'){
+                helper(nrow,ncol,board,node,ans,track);                   
             }             
         }
 //backtracking starts
         track.pop_back();         
-        visited[i][j]=false;
+        board[i][j]=c;
         return;
     }
 
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words){
-        int n=board.size();
-        int m=board[0].size();
 
         vector<string>ans;
-        vector<vector<bool>>visited(n,vector<bool>(m,false));
 
         Trie trie;
         string track="";
@@ -73,14 +70,13 @@ public:
             trie.insert(word);
         }
         Node*temp=trie.root;
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
+        for(int i=0; i<board.size(); i++){
+            for(int j=0; j<board[0].size(); j++){
                 if(temp->children.count(board[i][j])!=0){
-                    helper(i,j,n,m,board,visited,temp,trie,ans,track);
+                    helper(i,j,board,temp,ans,track);
                 }
             }
         } 
-
         return ans;                       
     }
 };
