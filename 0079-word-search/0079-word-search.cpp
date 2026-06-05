@@ -1,10 +1,10 @@
 class Solution {
 public:
-    bool helper(int i, int j,int n, int m,vector<vector<char>>&board,string word,vector<vector<bool>>&visited, int k){
+    bool helper(int i, int j,int n, int m,vector<vector<char>>&board,string &word,vector<vector<bool>>&visited, int k){
         if(k==word.size()-1){
             return true;
         }
-        bool ans=false;
+        bool ans;
 
         visited[i][j]=true;
         int dir[4][2]={{0,1},{1,0},{0,-1},{-1,0}};
