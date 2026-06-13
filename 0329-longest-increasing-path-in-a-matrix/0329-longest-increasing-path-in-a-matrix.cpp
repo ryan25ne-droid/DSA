@@ -8,7 +8,6 @@ public:
         }
 
         int dir[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
-        int Max=0;
 
         for(auto &ele: dir){
             int nrow= i+ele[0];
@@ -16,17 +15,16 @@ public:
 
             if(nrow>=0 && nrow<n && ncol >=0 && ncol<m){
                 int path= (matrix[i][j]<matrix[nrow][ncol])? 1+helper(matrix, nrow, ncol, n, m, dp) :0; 
-                Max=max(Max, path);                
+                dp[i][j]=max(dp[i][j], path);                
             }
         }
-        dp[i][j]=Max;
-        return Max;
+        return dp[i][j];
     }
 
     int longestIncreasingPath(vector<vector<int>>& matrix){
         int n=matrix.size();
         int m=matrix[0].size();
-        int ans=INT_MIN;
+        int ans= 0;
         vector<vector<int>>dp(n,vector<int>(m,-1));
 
         for(int i=0;i<n;i++){
@@ -34,6 +32,8 @@ public:
                 ans=max(ans,helper(matrix, i,j,n, m, dp));
             }
         }
-        return ans+1; //add 1 as the no of matrix entries in the path are 1 more than no of times helper is called.        
+        return ans+1; //add 1 as the path length counts the starting cell too        
     }
 };
+
+//this is very similar to no of Islands Q 200. 
