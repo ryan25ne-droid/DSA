@@ -50,7 +50,7 @@ public:
         }
 
         ans.erase(ans.begin(), ans.begin()+n);
-        sort(ans.begin(), ans.end());
+        //since we already sorted ans once and iterated on it in that order, the final order is also ascending. No need to do sorting again
 
         return ans;
     }
