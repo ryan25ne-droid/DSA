@@ -10,16 +10,13 @@ public:
         long long ans=0;
         int i=0;
         
-        while(k!=0){
-            long long x=static_cast<long long>(nums[i]);
-            long long y=static_cast<long long>(mul)*nums[i];
+        while(k!=0 && i<n){
+            long long x= 1LL*nums[i];
+            long long y= 1LL *nums[i]*mul;
             ans+=max(x,y);
             i++;
             mul--;
-            k--; 
-            if(i>=n){
-                break;
-            }           
+            k--;            
         }
 
         return ans;        
