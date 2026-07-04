@@ -19,16 +19,29 @@
 
 //its TC= O(32*N)
 
+// class Solution {
+// public:
+//     int singleNumber(vector<int>& nums){
+//         sort(nums.begin(), nums.end());
+
+//         for(int ptr=1;ptr<nums.size(); ptr=ptr+3){
+//             if(nums[ptr]!=nums[ptr-1]){
+//                 return nums[ptr-1];
+//             }
+//         }    
+//         return nums[nums.size()-1];        
+//     }
+// };
+
 class Solution {
 public:
     int singleNumber(vector<int>& nums){
-        sort(nums.begin(), nums.end());
-
-        for(int ptr=1;ptr<nums.size(); ptr=ptr+3){
-            if(nums[ptr]!=nums[ptr-1]){
-                return nums[ptr-1];
-            }
-        }    
-        return nums[nums.size()-1];        
+        int ones=0;
+        int twos=0;
+        for(int i=0;i<nums.size();i++){
+            ones= (nums[i] ^ ones) & ~(twos);
+            twos= (nums[i] ^ twos) & ~(ones);
+        }  
+        return ones;        
     }
 };
