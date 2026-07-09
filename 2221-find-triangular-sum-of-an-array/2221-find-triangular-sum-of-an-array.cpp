@@ -5,14 +5,12 @@ public:
         if(n==1){
             return nums[0];
         }
-        vector<int> newNums(n-1);  
-        while(n>1){
-            for(int i=0; i<n-1; i++){
-                newNums[i]= (nums[i]+nums[i+1])%10;
+
+        for(int i=n; i>1; i--){
+            for(int j=0; j<i-1; j++){
+                nums[j]= (nums[j]+nums[j+1])%10;
             }
-            nums= newNums;
-            n--;
         }
-        return newNums[0];
+        return nums[0];
     }
 };
