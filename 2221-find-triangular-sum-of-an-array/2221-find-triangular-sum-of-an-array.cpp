@@ -6,8 +6,8 @@ public:
             return nums[0];
         }
 
-        for(int i=n; i>1; i--){
-            for(int j=0; j<i-1; j++){
+        for(int i=n-1; i>0; i--){
+            for(int j=0; j<i; j++){
                 nums[j]= (nums[j]+nums[j+1])%10;
             }
         }
