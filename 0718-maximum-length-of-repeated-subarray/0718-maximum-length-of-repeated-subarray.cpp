@@ -5,33 +5,23 @@ public:
     int findLength(vector<int>& nums1, vector<int>& nums2) {
         int n=nums1.size();
         int m=nums2.size();
-        vector<vector<int>>dp(n, vector<int>(m,0));
-//dp[i][j] denotes longest substring ending at idx i of str1 and idx j of str2
+//Instead of using the 2-D dp array, try using the 2 1-D arrays. This is done if in the dp relation, we depend only on the previous rows.
+
+        vector<int> curr(m+1,0), prev(m+1,0);
+//chose m+1 size cause we run the inner loop till m. Try to imagine why
         int maxLen=0; 
-        for(int i=0; i<n; i++){
-            if(nums2[0]==nums1[i]){
-                dp[i][0]=1;
-                maxLen=1;
-            }
-        }
-        for(int i=0; i<m; i++){
-            if(nums1[0]==nums2[i]){
-                dp[0][i]=1;
-                maxLen=1;
-            }
-        }
 
-        for(int i=1; i<n; i++){
-            for(int j=1; j<m; j++){
-                if(nums1[i]==nums2[j]){
-                    dp[i][j]= 1+dp[i-1][j-1];
-                    maxLen= max(maxLen, dp[i][j]);
-
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=m; j++){
+                if(nums1[i-1]==nums2[j-1]){
+                    curr[j]= 1+prev[j-1];
+                    maxLen= max(maxLen, curr[j]);
                 }
                 else{
-                    dp[i][j]=0;
+                    curr[j]=0;
                 }
             }
+            prev=curr;
         }
         return maxLen;        
     }
