@@ -25,7 +25,7 @@ public:
         //we need to find j1, j2, j3 such that j1+ j2+ j3... =k. break the path of size k into powers of 2.  
         int anc=node;
 
-        for (int count=0; count<32; count++) {
+        for (int count=0; count<LOG; count++) {
             if (k & (1 <<count)){   // check if kth bit is set
                 anc= up[anc][count];
                 if(anc==-1){
