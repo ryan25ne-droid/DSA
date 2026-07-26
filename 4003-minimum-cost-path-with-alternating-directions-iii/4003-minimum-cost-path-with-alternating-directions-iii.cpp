@@ -18,6 +18,8 @@ public:
     int const dir[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
     
     long long minCost(int m, int n, vector<vector<int>>& penalty){
+        ios_base::sync_with_stdio(false); 
+        cin.tie(NULL);
         vector<vector<vector<long long>>>dp(m, vector<vector<long long>>(n, vector<long long>(2, LLONG_MAX)));
         dp[0][0][0]=1;
 
