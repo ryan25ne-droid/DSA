@@ -13,7 +13,7 @@ public:
         map.insert(s[ptr1]);
 
         while(ptr2<s.size()){
-            if(map.count(s[ptr1])==0){
+            if(map.count(s[ptr2])==0){
                 map.insert(s[ptr2]);
             }
             else{
