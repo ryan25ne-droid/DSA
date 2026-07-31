@@ -9,19 +9,19 @@ public:
         int ptr2=1;
         int maxLen=0;
 
-        unordered_map<char,int> map;
-        map[s[ptr1]]=1;
+        unordered_set<char> map;
+        map.insert(s[ptr1]);
 
         while(ptr2<s.size()){
-            if(map[s[ptr2]]==0){
-                map[s[ptr2]]++;
+            if(map.count(s[ptr1])==0){
+                map.insert(s[ptr2]);
             }
             else{
-                while(map[s[ptr2]]!=0){
-                    map[s[ptr1]]--;
+                while(map.count(s[ptr2])!=0){
+                    map.erase(s[ptr1]);
                     ptr1++;
                 }
-                map[s[ptr2]]++;               
+                map.insert(s[ptr2]);               
             }
             maxLen= max(maxLen, ptr2-ptr1+1);
             ptr2++;
