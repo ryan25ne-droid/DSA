@@ -11,58 +11,27 @@
 class Solution {
 public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
-        if(left==right){
+        if (left == right){
             return head;
-        }    
-
-        ListNode* dummy= new ListNode(0);
-        ListNode* LEFT= head;
-        ListNode* RIGHT= head;
-        ListNode* start= head;
-        ListNode* end= head;
-
-        int count=1;
-
-        if(left==1){
-            start=nullptr;
         }
 
-        else{
-            count=2;
+        ListNode dummy(0);  //by allocating in stack we don't have to manually delete dummy inorder to prevent memory leaks
+        dummy.next = head;
+        ListNode* prev = &dummy;
 
-            while(count<left){
-                start= start->next;
-                count++;
-            }
-            LEFT= start->next;
+//Reach the node just before left position (start)
+        for (int i =0; i <left-1; i++) {
+            prev =prev->next;
         }
 
-        end= LEFT;
-        while(count<right){
-            end= end->next;
-            count++;
+// Reverse the sublist from 'left' to 'right' in-place
+        ListNode*curr = prev->next;
+        for (int i=0; i<right-left; i++) {
+            ListNode*temp= curr->next;
+            curr->next =temp->next;
+            temp->next =prev->next;
+            prev->next =temp;
         }
-        RIGHT = end;
-        end= end->next;
-
-        ListNode* prev= LEFT;
-        ListNode* curr= prev;
-        ListNode* temp= curr;
-
-        while(curr->next != end){
-            temp= curr->next;
-            curr->next= prev;
-            prev= curr;
-            curr= temp;
-        }
-        curr->next= prev;
-        
-        if(start!=nullptr){
-            start->next= RIGHT;
-        }
-        LEFT->next= end;
-
-        dummy->next= (left==1)? RIGHT: head;
-        return dummy->next;
+        return dummy.next;
     }
 };
