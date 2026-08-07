@@ -12,37 +12,31 @@
 class Solution {
 public:
 
-    void helper(vector<vector<int>>& ans, TreeNode* root, int target, queue<int>q){
+    void helper(vector<vector<int>>& ans, TreeNode* root, int target, vector<int>&path){
         if(root==nullptr){
             return;
         }
 
         if(root->left==nullptr && root->right==nullptr){
             if(target== root->val){
-                vector<int> store;
-                q.push(root->val);
-                while(!q.empty()){
-                    store.push_back(q.front());
-                    q.pop();
-                }
-                ans.push_back(store);
-            }
-            else{
-                q= queue<int>();
+                path.push_back(root->val);
+                ans.push_back(path);
+                path.pop_back();
             }
             return;
         }
 
-        q.push(root->val);
+        path.push_back(root->val);
 
-        helper(ans, root->left, target-root->val, q);
-        helper(ans, root->right, target-root->val, q);
+        helper(ans, root->left, target-root->val, path);
+        helper(ans, root->right, target-root->val, path);
+        path.pop_back();
         return;
     }
     vector<vector<int>> pathSum(TreeNode* root, int targetSum){
         vector<vector<int>> ans;
-        queue<int> q;
-        helper(ans, root, targetSum, q);
+        vector<int> path;
+        helper(ans, root, targetSum, path);
         return ans;                
     }
 };
