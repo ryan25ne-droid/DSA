@@ -1,38 +1,58 @@
 class Solution {
-    //Binary Search is a kind of recursion
 public:
-    int search(vector<int>& nums, int target) {
+    
+    int search(vector<int>& nums, int target){
+        int k= 0;
+
         int start=0;
-        int end=nums.size()-1;
-        
-        while(start<=end){
-            int mid=(start+end)/2;
-            if(nums[mid]<nums[end]){ //right half is sorted
-                if (nums[mid]==target){
-                    return mid;
-                }
-                else if(target<nums[mid] || target>nums[end]){ 
-                    //target is not in right half
-                    end=mid-1; //avoides infinite loop condition
-                }
-                else{ //target might be in the right half
-                    start=mid+1; //avoides infinite loop condition
-                }
-            } 
-            else { //left half is sorted
-                if (nums[mid]==target){
-                    return mid;
-                }
-                else if(target>nums[mid]||target<nums[start]){
-                    //target not in left half
-                    start=mid+1; //avoides infinite loop condition
-                }
-                else{
-                    //target might be in the left half
-                    end=mid-1; //avoides infinite loop condn
-                }
-            }        
-        } 
-    return -1;
-    }       
+        int end= nums.size()-1 ;
+
+        while(start< end){
+            int mid= start + (end-start)/2;
+
+            if(nums[mid] < nums[end]){
+                end= mid;
+            }
+            else{
+                start= mid+1;
+            }
+        }
+        k= start;
+
+        start=0; 
+        end= k-1;
+
+        while(start<= end){
+            int mid= start + (end-start)/2;
+
+            if(nums[mid]<target){
+                start= mid+1;
+            }
+            else if(nums[mid] == target){
+                return mid;
+            }
+            else{
+                end= mid-1 ;
+            }
+        }
+
+        start= k;
+        end= nums.size()-1;
+
+        while(start<= end){
+            int mid= start + (end-start)/2;
+
+            if(nums[mid]<target){
+                start= mid+1;
+            }
+            else if(nums[mid] == target){
+                return mid;
+            }
+            else{
+                end= mid-1;
+            }
+        }
+
+        return -1;        
+    }
 };
