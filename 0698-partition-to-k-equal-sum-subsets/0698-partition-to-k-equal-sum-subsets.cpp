@@ -1,52 +1,51 @@
 class Solution {
 public:
-    bool helper(vector<char> &dp, vector<int> &nums, int mask, int currsum, int target, int n){
-
-        if(mask== (1<< n)-1){
-            return true;
-        }
-
-        if(dp[mask] != -1){
-            return dp[mask];
-        }
-
-        for(int i=0; i<n; i++){
-// ith element not used
-            if(!(mask & (1<<i))){
-                if(nums[i]+ currsum <= target){
-                    int nextsum= (nums[i]+ currsum)% target;
-                    if(helper(dp, nums, mask | (1<<i), nextsum, target, n)){
-                        dp[mask] =true;
-                        return true;
-                    }
-//incase nextsum becomes equal to target, it becomes 0 (another grp completed)
-                }
-            }
-        }
-        dp[mask]= false;
-        return false;        
-    }
-
-    bool canPartitionKSubsets(vector<int>& nums, int k){
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
         int n= nums.size();
-        int sum=0; 
+        int sum=0;
 
         for(int i=0; i<n; i++){
             sum+= nums[i];
         }
+
         if(sum%k !=0){
             return false;
         }
-        int target= sum/k;
 
+        int target= sum/k;
         sort(nums.rbegin(), nums.rend());
 
-        int currsum=0;
-        int mask=0;
-        vector<char> dp((1<<n), -1);
+        if(nums[0]> target){
+            return false;
+        }
 
-        return helper(dp, nums, mask, currsum, target, n);        
+        int totalstates= (1<<n);
+
+        vector<int> dp(totalstates, -1);
+        dp[0]= 0;
+// base case. empty set has sum 0
+        
+        for(int mask=0; mask< totalstates; mask++){
+            if(dp[mask]==-1){
+                continue;
+            }
+            for(int i=0; i<n; i++){
+                if(!(mask & (1<<i))){
+                    if( dp[mask]+ nums[i]<= target){
+                        int newMask= mask | (1<<i);
+                        dp[newMask]= (dp[mask]+ nums[i])% target;
+                    }
+                }
+            }
+        }
+        return dp[totalstates-1] ==0;  
+
+// dp[mask] stores the current subset sum modulo target for that mask. If dp[mask] == 0, it means the last subset was completed exactly at target. If dp[mask] != 0, it means we ended with a partially filled subset, which is invalid.
     }
 };
 
-// optimise by using vector<char> dp instead of vector<int> dp.
+// The outer loop eventually iterates over all masks from 0 to (1<<n)-1.
+
+// When it reaches newMask, the check if (dp[newMask] == -1) continue; will now pass, because we filled it earlier.
+
+// That means newMask is now considered a reachable state, and we’ll expand it further by trying to add more unused elements.
