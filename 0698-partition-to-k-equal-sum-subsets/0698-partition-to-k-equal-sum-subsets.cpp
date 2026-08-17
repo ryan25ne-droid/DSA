@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool helper(vector<int> &dp, vector<int> &nums, int mask, int currsum, int target, int n){
+    bool helper(vector<char> &dp, vector<int> &nums, int mask, int currsum, int target, int n){
 
         if(mask== (1<< n)-1){
             return true;
@@ -43,8 +43,10 @@ public:
 
         int currsum=0;
         int mask=0;
-        vector<int> dp((1<<n), -1);
+        vector<char> dp((1<<n), -1);
 
         return helper(dp, nums, mask, currsum, target, n);        
     }
 };
+
+// optimise by using vector<char> dp instead of vector<int> dp.
