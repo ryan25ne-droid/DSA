@@ -4,9 +4,7 @@ public:
         int n= obstacles.size();
         vector<int> ans(n);   // dp[i] is same as ans[i]
 
-        for(int i=0; i<n; i++){
-            ans[i]= 1;
-        }  
+        ans[0]= 1; 
 
         vector<int> temp;
         temp.push_back(obstacles[0]);   
