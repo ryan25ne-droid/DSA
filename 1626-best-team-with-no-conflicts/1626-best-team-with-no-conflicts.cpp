@@ -1,30 +1,5 @@
 class Solution {
 public:
-    int helper(vector<pair<int, int>> &player, vector<vector<int>> &dp, int idx, int prevIdx, int n){
-
-        if(idx== n){
-            return 0;
-        }
-
-        if(dp[idx][prevIdx+1]!= -1){
-            return dp[idx][prevIdx+1];
-        } 
-
-// No previous player
-        if (prevIdx == -1) {
-            return dp[idx][prevIdx+1] = max(helper(player, dp, idx+1, -1, n), player[idx].second + helper(player, dp, idx + 1, idx, n));
-        }
-
-        int currScore= player[idx].second;
-        int prevScore= player[prevIdx].second;
-
-        if(currScore< prevScore){
-            return dp[idx][prevIdx+1]= helper(player, dp, idx+1, prevIdx, n);
-        }
-
-        return dp[idx][prevIdx+1]= max(helper(player, dp, idx+1, prevIdx, n), player[idx].second + helper(player, dp, idx+1, idx, n));        
-    }
-
     int bestTeamScore(vector<int>& scores, vector<int>& ages) {
         int n= ages.size();
 
@@ -41,10 +16,23 @@ public:
             return a.first< b.first;
         });
 
-        vector<vector<int>> dp(n, vector<int>(n+1, -1));
+        vector<int> dp(n);
+        for(int i=0; i<n; i++){
+            dp[i]= player[i].second;
+        }
 
-        return helper(player, dp, 0, -1, n);
-                
+        int ans= INT_MIN;
+
+        for(int i= 0; i<n; i++){
+            for(int j= 0; j<i; j++){
+                if(player[i].second>= player[j].second){
+                    dp[i]= max(dp[i], dp[j]+ player[i].second);
+                }
+            }
+            ans= max(ans, dp[i]);
+        }
+
+        return ans;                
     }
 };
 
