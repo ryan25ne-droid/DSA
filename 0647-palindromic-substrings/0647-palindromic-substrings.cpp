@@ -1,32 +1,58 @@
 class Solution {
 public:
-    int helper(string& s, int start, int end, vector<vector<int>> &dp){
-        if(start<0 || end>=s.size()){
-            return 0;
-        }
-
-        if(dp[start][end]!=-1){
-            return dp[start][end];
-        }
-
-        if(s[start]!= s[end]){
-            return dp[start][end]= 0;
-        }
-        
-        return dp[start][end]= 1+ helper(s, start-1, end+1, dp);
-    }
-
     int countSubstrings(string s) {
         int n= s.size();
-        int count=0;
+        int count= n;
 
-        vector<vector<int>> dp(n, vector<int>(n, -1));
+// initialise to 1 cause single characters are always palindromes
+        vector<vector<int>> dp(n, vector<int>(n, 1));
 
-        for(int i=0; i<n; i++){
-            count+= helper(s, i, i, dp);  //odd palindromes
-            count+= helper(s, i, i+1, dp);  //even palindromes
+// strings of len>=2
+        for(int i=n-2; i>=0; i--){
+            for(int j=i+1; j<n; j++){
+                if(s[i]== s[j]){
+                    dp[i][j]= dp[i+1][j-1];
+                }
+                else{
+                    dp[i][j]= 0;
+                }
+                count+= dp[i][j];
+            }
         }
 
-        return count;               
+        return count;        
     }
 };
+
+// class Solution {
+// public:
+//     int helper(string& s, int start, int end, vector<vector<int>> &dp){
+//         if(start<0 || end>=s.size()){
+//             return 0;
+//         }
+
+//         if(dp[start][end]!=-1){
+//             return dp[start][end];
+//         }
+
+//         if(s[start]!= s[end]){
+//             return dp[start][end]= 0;
+//         }
+        
+//         return dp[start][end]= 1+ helper(s, start-1, end+1, dp);
+//     }
+
+//     int countSubstrings(string s) {
+//         int n= s.size();
+//         int count=0;
+
+//         vector<vector<int>> dp(n, vector<int>(n, -1));
+
+//         for(int i=0; i<n; i++){
+//             count+= helper(s, i, i, dp);  //odd palindromes
+//             count+= helper(s, i, i+1, dp);  //even palindromes
+//         }
+
+//         return count;               
+//     }
+// };
