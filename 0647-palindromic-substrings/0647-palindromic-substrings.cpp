@@ -10,7 +10,7 @@ public:
         }
 
         if(s[start]!= s[end]){
-            return 0;
+            return dp[start][end]= 0;
         }
         
         return dp[start][end]= 1+ helper(s, start-1, end+1, dp);
