@@ -37,6 +37,17 @@ public:
         });
 
 // in our memoisation the next states are being used. So here we do form back
+// and create a vector next to avoid recomputing lower_bound
+        
+        vector<int> next(m);
+        for(int i=0; i<m; i++){
+            int end= rides[i][1];
+
+            next[i]= lower_bound(rides.begin(), rides.end(), end, [](const vector<int> &a, int val){
+                return a[0]< val;
+            })- rides.begin();
+        }
+
         for(int i= m-1; i>=0; i--){
             int start= rides[i][0];
             int end= rides[i][1];
@@ -44,11 +55,9 @@ public:
             
             ll skip= dp[i+1];
 
-            int next= lower_bound(rides.begin(), rides.end(), end, [](const vector<int> &a, int val){
-            return a[0]< val;
-            })- rides.begin();
+            int nextIdx= next[i];
 
-            ll take= end- start+ tip+ dp[next];
+            ll take= end- start+ tip+ dp[nextIdx];
 
             dp[i]= max(take, skip);
         }  
