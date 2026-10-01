@@ -1,7 +1,7 @@
 class Solution {
 public:
-    int helper(vector<vector<int>>& meetings, int idx, vector<int> &dp){
-        if(idx>= meetings.size()){
+    int helper(vector<vector<int>>& meeting, int idx, vector<int> &dp){
+        if(idx>= meeting.size()){
             return 0;
         }
 
@@ -9,32 +9,32 @@ public:
             return dp[idx];
         }
         
-        int start= meetings[idx][0];  
-        int end= meetings[idx][1]; 
-        int revenue= meetings[idx][2];
+        int start= meeting[idx][0];  
+        int end= meeting[idx][1]; 
+        int revenue= meeting[idx][2];
 
 // skip current job
-        int skip= helper(meetings, idx+1, dp);
+        int skip= helper(meeting, idx+1, dp);
     
 //find earliest valid job
-        int next = lower_bound(meetings.begin(), meetings.end(), end,[](const vector<int>& meeting, int value){
-            return meeting[0] < value;
-        }) -meetings.begin();
+        int next = lower_bound(meeting.begin(), meeting.end(), end,[](const vector<int>& meet, int value){
+            return meet[0] < value;
+        }) -meeting.begin();
         
-        int take = revenue + helper(meetings, next, dp); 
+        int take= revenue+ helper(meeting, next, dp); 
         
         return dp[idx]= max(skip, take);        
     }
 
     int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
         int n= startTime.size();
-        vector<vector<int>> meetings;
+        vector<vector<int>> meeting;
         
         for(int i=0; i<n; i++){
-            meetings.push_back({startTime[i], endTime[i], profit[i]});
+            meeting.push_back({startTime[i], endTime[i], profit[i]});
         }
 
-        sort(meetings.begin(), meetings.end(), [](const vector<int> &a, const vector<int> &b){
+        sort(meeting.begin(), meeting.end(), [](const vector<int> &a, const vector<int> &b){
             // if(a[0]!= b[0]){
             //     return a[0]<b[0];
             // }
@@ -44,6 +44,6 @@ public:
 
         vector<int> dp(n, -1);
         
-        return helper(meetings, 0, dp);
+        return helper(meeting, 0, dp);
     }
 };
