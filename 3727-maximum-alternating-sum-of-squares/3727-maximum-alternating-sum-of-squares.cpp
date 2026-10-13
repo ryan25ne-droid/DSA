@@ -1,20 +1,17 @@
+# define ll long long
 class Solution {
 public:
-    long long maxAlternatingSum(vector<int>& nums) {
+    ll maxAlternatingSum(vector<int>& nums) {
         int n = nums.size();
-        vector<long long> arr(n, 0);
+        vector<ll> arr(n, 0);
         for(int i = 0; i < n; i++){
-            arr[i] = nums[i]*nums[i];
+            arr[i]= nums[i]*nums[i];
         }
+
         sort(arr.begin(), arr.end());
-        long long ans = 0;
-        for(int i = 0; i < n; i++){
-            if(i < n/2){
-                ans -= arr[i];
-            }
-            else{
-                ans += arr[i];
-            }
+        ll ans= 0;
+        for(int i= 0; i < n; i++){
+            ans+= (i<n/2)? -1ll* arr[i]: arr[i];
         }
         return ans;
     }
