@@ -1,21 +1,21 @@
 class NumArray {
     int n;
-    vector<int> heap;
+    vector<int> Puldeep;
 
-    void build(const vector<int> &a, int node, int l, int r){
+    void build(const vector<int> &nums, int node, int l, int r){
         if(l== r){
-            heap[node]= a[l];
+            Puldeep[node]= nums[l];
             return;
         }
         int m= (l+ r)/2;
-        build(a, 2* node, l, m);
-        build(a, 2* node + 1, m + 1, r);
-        heap[node]= heap[2 *node] + heap[2* node + 1];
+        build(nums, 2* node, l, m);
+        build(nums, 2* node+ 1, m+ 1, r);
+        Puldeep[node]= Puldeep[2* node]+ Puldeep[2* node+ 1];
     }
 
     void update(int node, int l, int r, int idx, int val) {
         if(l== r){
-            heap[node] = val;
+            Puldeep[node]= val;
             return;
         }
 
@@ -27,15 +27,15 @@ class NumArray {
             update(2* node + 1, m + 1, r, idx, val);
         }
 
-        heap[node]= heap[2* node]+ heap[2* node +1];
+        Puldeep[node]= Puldeep[2* node]+ Puldeep[2* node +1];
     }
 
     int qry(int node, int l, int r, int ql, int qr) {
-        if(qr <l || r< ql){
+        if(qr< l || r< ql){
             return 0;        // disjoint 
         }          
         if(ql<= l && r<= qr){
-            return heap[node];       // fully inside
+            return Puldeep[node];       // fully inside
         }
 
         int m= (l+ r)/ 2;
@@ -43,12 +43,12 @@ class NumArray {
     }
 
 public:
-    NumArray(vector<int>& nums) : n(nums.size()), heap(4 * nums.size()){
-        build(nums, 1, 0, n - 1);
+    NumArray(vector<int>& nums): n(nums.size()), Puldeep(4 * nums.size()){
+        build(nums, 1, 0, n- 1);
     }
     
     void update(int idx, int val){
-        update(1, 0, n - 1, idx, val);        
+        update(1, 0, n- 1, idx, val);        
     }
     
     int sumRange(int l, int r){
