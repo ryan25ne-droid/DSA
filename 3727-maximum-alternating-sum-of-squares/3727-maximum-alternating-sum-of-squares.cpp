@@ -7,7 +7,6 @@ public:
             arr[i] = nums[i]*nums[i];
         }
         sort(arr.begin(), arr.end());
-        int cnt = n/2;
         long long ans = 0;
         for(int i = 0; i < n; i++){
             if(i < n/2){
