@@ -19,6 +19,7 @@ public:
 //find earliest valid job
         int next = lower_bound(meeting.begin(), meeting.end(), end,[](const vector<int>& meet, int value){
             return meet[0] < value;
+// note the sign of the comparator
         }) -meeting.begin();
         
         int take= revenue+ helper(meeting, next, dp); 
@@ -35,15 +36,14 @@ public:
         }
 
         sort(meeting.begin(), meeting.end(), [](const vector<int> &a, const vector<int> &b){
-            // if(a[0]!= b[0]){
-            //     return a[0]<b[0];
-            // }
-            // return a[1]<b[1];   
-            return a[0]< b[0];         
+            if(a[0]!= b[0]){
+                return a[0]<b[0];
+            }
+            return a[1]<b[1];   
+            // return a[0]< b[0];         
         });
 
         vector<int> dp(n, -1);
-        
         return helper(meeting, 0, dp);
     }
 };
