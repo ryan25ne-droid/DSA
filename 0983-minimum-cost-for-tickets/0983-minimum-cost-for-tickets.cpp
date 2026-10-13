@@ -1,4 +1,3 @@
-# define ll long long
 class Solution {
 public:
     int mincostTickets(vector<int>& days, vector<int>& costs){
@@ -7,7 +6,7 @@ public:
         int cost7= costs[1];
         int cost30= costs[2];
 
-        vector<ll> dp(n+1, 0);
+        vector<int> dp(n+1, 0);
 
         for(int i= 1; i<=n; i++){
             int currDay= days[i-1];
