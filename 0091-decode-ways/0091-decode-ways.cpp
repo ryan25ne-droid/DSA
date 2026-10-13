@@ -14,11 +14,11 @@ public:
 
         for(int i= idx; i<min(idx+2, n); i++){
             temp += s[i];
-            if(temp[0] == '0') break;
+            if(temp[0] == '0') continue;
             int no= stoi(temp);
 
             if(no> 26 || no <=0){
-                break;
+                continue;
             }
             ans += helper(s,n, i+1, dp);
         }
