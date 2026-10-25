@@ -8,7 +8,7 @@
  * };
  */
 class BinaryLifting{
-    static const int LOG= 30;
+    static const int LOG= 18;
     unordered_map <TreeNode*, vector<TreeNode*>> up;
     unordered_map <TreeNode*, int> depth;
 
