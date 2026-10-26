@@ -11,53 +11,26 @@
  */
 class Solution {
 public:
-    TreeNode* lca(TreeNode* root, TreeNode* p, TreeNode* q){
-        if(root== nullptr || root== p || root== q){
-            return root;
+    pair<TreeNode*, int> dfs(TreeNode* root){   //this depth is not the depth of the LCA< but the depth of the subtree containing LCA
+        if(root== nullptr){
+            return {nullptr, 0};
         }
 
-        TreeNode* left= lca(root->left, p, q);
-        TreeNode* right= lca(root->right, p, q);
+        auto [left, dl]= dfs(root->left);
+        auto [right, dr]= dfs(root->right);
 
-        if(left && right){
-            return root;
+        if(dl== dr){
+            return {root, dl+1};
+        }
+        if(dl> dr){
+            return {left, dl+ 1};
         }
 
-        return left? left: right;
+        return {right, dr+ 1};
     }
 
-    TreeNode* subtreeWithAllDeepest(TreeNode* root) {
-        if(root== nullptr){
-            return root;
-        }
-
-        unordered_map <TreeNode*, int> depth;
-        queue <pair<TreeNode*, int>> q; 
-        int maxDepth= 0;
-
-        q.push({root, 0});
-        while(!q.empty()){
-            auto [node, d]= q.front();
-            q.pop();
-
-            depth[node]= d;
-            maxDepth= max(maxDepth, d);
-
-            if(node->left!= nullptr){
-                q.push({node->left, d+1});
-            }
-            if(node->right!= nullptr){
-                q.push({node->right, d+1});
-            }
-        }
-
-        TreeNode* u= nullptr;
-
-        for(auto& e: depth){
-            if(e.second== maxDepth){
-                u= lca(root, u, e.first);
-            }
-        }
-        return u;
+    TreeNode* subtreeWithAllDeepest(TreeNode* root){
+        auto [node, depth]= dfs(root);
+        return node;        
     }
 };
