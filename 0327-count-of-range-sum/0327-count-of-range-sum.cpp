@@ -29,7 +29,7 @@ struct BIT{
 class Solution {
 public:
     int countRangeSum(vector<int>& nums, int lower, int upper){
-        int ans= 0;
+        ll ans= 0;
         int n= nums.size();
 
         vector<ll> prefix(n+ 1);
@@ -51,29 +51,33 @@ public:
         sort(vals.begin(), vals.end());
         vals.erase(unique(vals.begin(), vals.end()), vals.end());
 
-        unordered_map<int, int> compress;
+        // unordered_map<ll, int> compress;
 
-        for(int i= 0; i<vals.size(); i++){
-            compress[vals[i]]= i+ 1;   //BIT is 1-indexed
-        }
+        // for(int i= 0; i<vals.size(); i++){
+        //     compress[vals[i]]= i+ 1;   //BIT is 1-indexed
+        // }
+
+        auto getRank= [](const vector<ll>& vals, ll x){
+            return int(lower_bound(vals.begin(), vals.end(), x)- vals.begin())+ 1;
+        };
 
         BIT bit(vals.size());
 
 // insert prefix sum 0
-        bit.update(compress[0], 1);
+        bit.update(getRank(vals, 0), 1);
 
         for (int i= 1; i<= n; i++) {
             ll curr= prefix[i];
 
-            int L= compress[curr- upper];
-            int R= compress[curr- lower];
+            int L= getRank(vals, curr- upper);
+            int R= getRank(vals, curr- lower);
 
             ans += bit.range(L, R);
 
-            bit.update(compress[curr], 1);
+            bit.update(getRank(vals, curr), 1);
         }
 
-        return ans;
+        return (int)ans;
     }
 };
 
