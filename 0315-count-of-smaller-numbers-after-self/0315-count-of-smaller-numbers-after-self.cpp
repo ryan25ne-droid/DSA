@@ -1,23 +1,29 @@
 // Fenwick Tree
-struct Fenwick{
-    vector<int> arr;
+#define ll long long
+struct BIT{
     int n;
-    Fenwick(int n) :n(n){
-        arr.assign(n+ 1, 0);
-    }
+    vector<ll> bit;
 
-    void update(int idx, int val){
-        for(; idx<= n; idx += (idx & -idx)){
-            arr[idx] += val;
+    BIT(int n): n(n), bit(n+1, 0){}
+
+    void update(int i, ll val){
+        while(i<= n){
+            bit[i]+= val;
+            i+= (i& -i);  //updating means i+= lowbit(i)
         }
     }
 
-    int query(int idx){
-        int sum= 0;
-        for(; idx> 0; idx -= (idx & -idx)){
-            sum += arr[idx];
+    ll prefix(int i){
+        ll sum= 0;
+        while(i> 0){
+            sum+= bit[i];
+            i-= (i& -i);   //i-= lowbit(i)
         }
         return sum;
+    }
+
+    ll range(int l, int r){
+        return prefix(r)- prefix(l-1);
     }
 };
 
@@ -37,21 +43,20 @@ public:
             compress[sorted[i]]= i+ 1;
         }
 
-    // Replace values in nums with compressed indices
-        vector<int> compressed;
-            for(int x: nums){
-            compressed.push_back(compress[x]);
-        }
-
+// Replace values in nums with compressed indices
+        // vector<int> compressed;
+        //     for(int x: nums){
+        //     compressed.push_back(compress[x]);
+        // }
 
         vector<int> counts(n);
-        Fenwick fenwick(sorted.size());
+        BIT bt (sorted.size());
 
     // Traverse from right to left
         for(int i= n-1; i>= 0; i--) {
             int idx= compress[nums[i]];
-            counts[i]= fenwick.query(idx- 1); // count of smaller elements
-            fenwick.update(idx, 1);             // add current element
+            counts[i]= bt.prefix(idx- 1); // count of smaller elements
+            bt.update(idx, 1);             // add current element
         }
 
         return counts;        
