@@ -16,6 +16,10 @@ public:
             auto [i, j]= dq.front();
             dq.pop_front();
 
+            if(i== m-1 && j== n-1){
+                return dist[i][j];
+            }
+
             int num= grid[i][j];
 
             for(int k= 0; k<4; k++){
