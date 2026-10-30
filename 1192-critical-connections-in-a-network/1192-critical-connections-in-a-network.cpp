@@ -7,12 +7,10 @@ private:
 public:
 vector<int> tin;
 vector<int> low;
-vector<bool> vis;
 vector<vector<int>> adj;
 vector<vector<int>> bridges;
     
     void dfs(int node, int parent){
-        vis[node]= true;
         tin[node]= low[node]= timer;
         timer++;
 
@@ -20,7 +18,7 @@ vector<vector<int>> bridges;
             if(ele== parent){
                 continue;
             }
-            else if(!vis[ele]){
+            else if(tin[ele]== -1){
                 dfs(ele, node);
                 low[node]= min(low[node], low[ele]);
 // check for bridge condition
@@ -30,16 +28,14 @@ vector<vector<int>> bridges;
                 }
             }
             else{  //we know this can't be a bridge for sure since we are visiting it for 2nd time. But we still care about lowest time
-                low[node]= min(low[node], low[ele]);
+                low[node]= min(low[node], tin[ele]);
             }
         }
     }
 
     vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections){
         adj.resize(n);
-        tin.resize(n);
-        vis.resize(n);
-        vis.resize(n, false);
+        tin.resize(n, -1);
         low.resize(n);
 
         for(auto& ele: connections){
@@ -58,3 +54,5 @@ vector<vector<int>> bridges;
         return bridges;       
     }
 };
+
+//We can use tin only instead of tin and visited
