@@ -1,21 +1,20 @@
 class Solution {
 public:
-    bool helper(vector<bool> &Tidi, vector<bool> &visited, int i, vector<vector<int>> &adj){
+    bool helper(vector<int> &state, int i, vector<vector<int>> &adj){
 
-        if(Tidi[i]){
+        if(state[i]== 2){
             return false;
         }
 
-        if(!visited[i]){
-            visited[i]= true;
-            Tidi[i]= true;
+        if(state[i]== 0){
+            state[i]= 2;
 
             for(auto& v: adj[i]){
-                if(!helper(Tidi, visited, v, adj)){
+                if(!helper(state, v, adj)){
                     return false;
                 }
             }
-            Tidi[i]= false;
+            state[i]= 1;
         }  
         return true;              
     }
@@ -31,12 +30,12 @@ public:
             adj[u].push_back(v);            
         } 
 
-        vector<bool> Tidi(n, false);
-        vector<bool> visited(n, false);
+        vector<int> state(n, 0);
+// 0-> unvisited. 1-> visited. 2-> visited in same path (recStack)
 
         for(int i=0; i<n; i++){
-            if(!visited[i]){
-                if(!helper(Tidi, visited, i, adj)){
+            if(state[i]== 0){
+                if(!helper(state, i, adj)){
                     return false;
                 }
             }
