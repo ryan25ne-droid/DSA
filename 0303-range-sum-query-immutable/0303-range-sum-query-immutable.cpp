@@ -1,8 +1,6 @@
-#define ll long long
-
 class NumArray {
 public:
-vector<ll> prefix;
+vector<int> prefix;
 
     NumArray(vector<int>& nums) {
         int n= nums.size();
