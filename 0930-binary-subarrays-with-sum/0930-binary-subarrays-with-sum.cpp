@@ -1,19 +1,31 @@
 class Solution {
 public:
-    int numSubarraysWithSum(vector<int>& nums, int goal) {
+    int atmostK(vector<int>& nums, int k){
         int n= nums.size();
-        int pref= 0;
-        unordered_map<int, int> mpp;   //storing no of times a sum has appeared
-
+        int l= 0;
+        int sum= 0;
         int ans= 0;
-        mpp[0]= 1;
 
-        for(int i= 0; i<n; i++){
-            pref+= nums[i];
-            ans+= mpp[pref- goal];
-            mpp[pref]++;
+        if(k< 0){
+            return 0;   //nums has non -ve integers
         }
 
-        return ans;        
+        for(int r= 0; r< n; r++){
+            sum+= nums[r];
+            
+            while(sum >k){
+                sum-= nums[l];
+                l++;
+            }
+
+            ans+= (r- l+ 1);            
+        }
+
+        return ans;
+    }
+
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+
+        return atmostK(nums, goal)- atmostK(nums, goal- 1);        
     }
 };
