@@ -1,22 +1,23 @@
 class Solution {
 public:
-    int minSubArrayLen(int target, vector<int>& nums){
-        int n=nums.size();
-        int left=0;
-        int sum=0;
-        int minLen= INT_MAX;
+    int minSubArrayLen(int target, vector<int>& nums) {
+// non -ve integers only. can use sliding window
+        int n= nums.size();
+        int ans= INT_MAX;
+        int l= 0;
+        int sum= 0;
 
-        for(int right=0; right<n ;right++){
-            sum+=nums[right];
-
-            while(sum>=target){
-                minLen=min(minLen, right-left+1);
-                sum-=nums[left];
-                left++;
+        for(int r= 0; r<n; r++){
+            sum+= nums[r];
+            if(sum>= target){
+                while(sum>= target){
+                    sum-= nums[l];
+                    l++;
+                }
+                ans= min((r- l+ 2), ans);  //the current (l, r) window sum is less than target for sure. Increase it by 1 to get the >= target length
             }
-        } 
-        return minLen==INT_MAX ? 0:minLen;       
+        }
+
+        return ans== INT_MAX ? 0: ans;        
     }
 };
-
-//saince all no are +ve, increasing right increases the sum (including more numbers) and increasing left decreases sum (excluding numbers). 
