@@ -1,28 +1,31 @@
 class Solution {
 public:
-    vector<string> map={"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    vector<string> mpp= {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
-    void helper(string digits, vector<string>&ans, int idx, string &comb){
-        if(idx>= digits.size()){
-            ans.push_back(comb);
+    void helper(string& digits, vector<string>& ans, string& temp, int idx, int n){
+        if(idx== n){
+            ans.push_back(temp);
             return;
         }
 
-        int val= digits[idx]-'0';
-        
-        for(auto& letter: map[val]){ 
-            comb.push_back(letter);
-            helper(digits, ans, idx+1, comb);
-            comb.pop_back();
-        }        
+        int digit= digits[idx]- '0';
+
+        for(char x: mpp[digit]){
+            temp+= x;
+            helper(digits, ans, temp, idx+ 1, n);
+            temp.pop_back();
+        }
+
+        return;        
     }
 
     vector<string> letterCombinations(string digits){
         vector<string> ans;
-        string comb= "";
+        string temp= "";
         int n= digits.size();
+        int idx= 0;
 
-        helper(digits, ans, 0, comb);
+        helper(digits, ans, temp, idx, n);
         return ans;      
     }
 };
