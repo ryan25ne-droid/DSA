@@ -10,7 +10,7 @@ public:
         stack<int> st;
 
         for(int i= m-1; i>= 0; i--){
-            while(!st.empty() && st.top()< nums2[i]){
+            while(!st.empty() && st.top()<= nums2[i]){
                 st.pop();
             }
 
@@ -21,11 +21,14 @@ public:
             st.push(nums2[i]);          
         }
 
+        unordered_map<int, int> mpp;
+
+        for(int i= 0; i< m; i++){
+            mpp[nums2[i]]= i;
+        }
+
         for(int i= 0; i< n; i++){
-            int idx= 0;
-            while(nums1[i]!= nums2[idx]){
-                idx++;
-            }
+            int idx= mpp[nums1[i]];
             ans[i]= great[idx];
         }
 
