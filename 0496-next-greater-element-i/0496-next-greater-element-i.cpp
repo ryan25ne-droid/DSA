@@ -47,7 +47,7 @@ public:
         vector<int> ans(n, -1);
         unordered_map<int, int> mpp;  //maps value of element to value of next greater element
 
-        stack<int> st;   //stores indexes
+        stack<int> st;   //stores indexes of nums2
 
         for(int i= 0; i< m; i++){
             while(!st.empty() && nums2[i]> nums2[st.top()]){
