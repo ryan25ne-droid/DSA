@@ -5,19 +5,23 @@ public:
         int m= grid.size();
         int n= grid[0].size();
 
-        vector<vector<int>> dp(m, vector<int> (n, 0));
-        dp[0][0]= grid[0][0];
+        vector<int> prev(n, INF);
+        vector<int> curr(n, 0);
+        
+        curr[0]= grid[0][0];
 
-        for(int i= 0; i< m; i++){
+        for(int i= 0; i< m; i++){  
             for(int j= 0; j< n; j++){
                 if(i== 0 && j== 0){
                     continue;
                 }
-                
-                dp[i][j]= min((j> 0)? dp[i][j- 1]: INF, (i> 0)? dp[i- 1][j]: INF)+ grid[i][j];
+                curr[j]= grid[i][j]+  min((j> 0)? curr[j-1]: INF, prev[j]);
             }
+            prev= curr;
         }
 
-        return dp[m- 1][n- 1];        
+        return curr[n- 1];        
     }
 };
+
+// optimising in space
