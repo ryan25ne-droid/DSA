@@ -1,47 +1,49 @@
 class Solution {
-    int dir[4][2]= {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};  //mapping at idx should be consistent with the idx+1 direction given in ques
+    const int dir[4][2]= {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
     const int INF= 1e8;
-
 public:
-    int minCost(vector<vector<int>>& grid){
+    int minCost(vector<vector<int>>& grid) {
         int m= grid.size();
         int n= grid[0].size();
-        deque<pair<int, int>> dq; //we store i, j
-        vector<vector<int>> dist(m, vector<int>(n, INF));
+        deque<pair<int, int>> dq;
+        vector<vector<int>> cost(m, vector<int>(n, INF));
 
-        dist[0][0]= 0;
         dq.push_front({0, 0});
+        cost[0][0]= 0;
 
         while(!dq.empty()){
-            auto [i, j]= dq.front();
+            auto [row, col]= dq.front();
             dq.pop_front();
 
-            if(i== m-1 && j== n-1){
-                return dist[i][j];
+            if(row== m- 1 && col== n-1){
+                return cost[row][col];
             }
 
-            int num= grid[i][j];
+            int idx= grid[row][col]- 1;
 
-            for(int k= 0; k<4; k++){
-                int nrow= i+ dir[k][0];
-                int ncol= j+ dir[k][1];
-
-                int wt= (num== k+1)? 0: 1;
+            for(int i= 0; i< 4; i++){
+                int nrow= row+ dir[i][0];
+                int ncol= col+ dir[i][1];
 
                 if(nrow>= 0 && nrow< m && ncol>= 0 && ncol< n){
-                    if(dist[nrow][ncol]> dist[i][j]+ wt){
-                        dist[nrow][ncol]= dist[i][j] +wt;
-                        if(wt== 0){
+                    if(i== idx){
+                        // cost[nrow][ncol]= min(cost[nrow][ncol], cost[row][col]);
+// this is bad because in even if no improvement happened, we are still pushing the node again.
+                        if(cost[nrow][ncol]> cost[row][col]){
+                            cost[nrow][ncol]= cost[row][col];
                             dq.push_front({nrow, ncol});
                         }
-                        if(wt== 1){
+                    }
+                    else{
+                        if(cost[nrow][ncol]> 1+ cost[row][col]){
+                            cost[nrow][ncol]= 1+ cost[row][col];
                             dq.push_back({nrow, ncol});
                         }
                     }
                 }
-            }
+            }          
         }
 
-        return dist[m-1][n-1];        
+        return cost[m- 1][n- 1];       
     }
 };
