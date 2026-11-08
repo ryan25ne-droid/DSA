@@ -17,10 +17,13 @@ public:
                 }
                 curr[j]= grid[i][j]+  min((j> 0)? curr[j-1]: INF, prev[j]);
             }
-            prev= curr;
+            // prev= curr;
+// instead of coopying the whole array swap their names so that rpev points to curr and curr points to prev. We will recalculate curr anyway in the next iteration so no problem in assigning garbage values
+            swap(prev, curr);
         }
 
-        return curr[n- 1];        
+        // return curr[n- 1];  now prev stores the latest value
+        return prev[n- 1];          
     }
 };
 
