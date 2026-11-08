@@ -8,8 +8,9 @@ public:
             return 0;
         }
 
-        vector<vector<int>> dp(m, vector<int>(n, 0)); 
-        dp[0][0]= 1;  //no of ways to reach (0, 0)
+        vector<int> curr(n, 0);
+        vector<int> prev(n, 0); 
+        curr[0]= 1;  //no of ways to reach (0, 0)
 
         for(int i= 0; i< m; i++){
             for(int j= 0; j< n; j++){
@@ -19,14 +20,18 @@ public:
 // important condition
 
                 if(obstacleGrid[i][j]== 1){
-                    dp[i][j]= 0;
+                    curr[j]= 0;
                 }
                 else{
-                    dp[i][j]= ((j> 0)? dp[i][j-1]: 0)+ ((i> 0)? dp[i-1][j]: 0);
+                    curr[j]= ((j> 0)? curr[j-1]: 0)+ ((i> 0)? prev[j]: 0);
                 }
             }
+            swap(curr, prev);
         }  
 
-        return dp[m-1][n-1];     
+        return prev[n-1];     
     }
 };
+
+
+//space optimisations
