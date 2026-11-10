@@ -1,27 +1,44 @@
 class Solution {
 public:
-    int minDistance(string word1, string word2) {
-        int n=word1.size();
-        int m=word2.size();
-        vector<vector<int>>dp(n+1,vector<int>(m+1,0)); 
-//Initialization
-        for(int i=0;i<n+1;i++){
-            dp[i][0]=i;
+    int helper(string &word1, string &word2, int i, int j,  vector<vector<int>> &dp){
+        if(i== -1 && j== -1){
+            return 0;
         }
-        for(int j=0;j<m+1;j++){
-            dp[0][j]=j;
+        if(i== -1 && j!= -1){
+            return j+ 1;   // insert remaining char
+        }
+        if(i!= -1 && j== -1){
+            return i+ 1;   // delete remaining char
+        }
+        if(dp[i][j]!= -1){
+            return dp[i][j];
         }
 
-        for(int i=1;i<n+1;i++){
-            for(int j=1;j<m+1;j++){
-                if(word1[i-1]==word2[j-1]){ //0 indexed means the ith character is at index i-1
-                    dp[i][j]=dp[i-1][j-1];
-                }
-                else{
-                    dp[i][j]=1+min(dp[i][j-1],min(dp[i-1][j],dp[i-1][j-1]));
-                }
-            }
-        } 
-        return dp[n][m];    
+        if(word1[i]== word2[j]){
+            return dp[i][j]= helper(word1, word2, i-1, j-1, dp);
+        }
+        
+        int replace= 1+ helper(word1, word2, i-1, j-1, dp);
+        int del= 1+ helper(word1, word2, i-1, j, dp);
+        int insert= 1+ helper(word1, word2, i, j-1, dp);
+
+        return dp[i][j]= min(replace, min(del, insert));
+
+    }
+    int minDistance(string word1, string word2) {
+        int n= word1.size();
+        int m= word2.size();
+
+        if(n== 0){
+            return m;
+        }
+
+        if(m== 0){
+            return n;
+        }
+
+        vector<vector<int>> dp(n, vector<int>(m, -1));
+
+        return helper(word1, word2, n-1, m-1, dp);        
     }
 };
