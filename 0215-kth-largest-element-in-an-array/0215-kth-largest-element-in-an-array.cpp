@@ -1,18 +1,20 @@
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k){
-// using k largest elements
+// using min heap for k largest elements
         int n= nums.size();
-        priority_queue<int> pq;
+        priority_queue<int, vector<int>, greater<int>> pq;
 
-        for(int i= 0; i< n; i++){
-            pq.push(nums[i]);
-        }
+        for(int x: nums){
+            pq.push(x);
 
-        for(int i= 0; i< k-1; i++){  //remove k-1 elements
-            pq.pop();
+            if(pq.size()> k){
+                pq.pop();
+            }
         }
 
         return pq.top();        
     }
 };
+
+// min heap keeps the smallest elements at top. If its size< k, we push element in it. If its size> k, we pop the top element. That means the smaller element is popped (the larger element sinks deeper into the heap). At the end the heap contains the k largest elements, with the smallest of them all (i.e. kth largest element) at the very top
