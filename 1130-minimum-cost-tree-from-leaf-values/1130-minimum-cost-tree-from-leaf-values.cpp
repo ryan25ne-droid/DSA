@@ -12,7 +12,9 @@ public:
         int ans= INT_MAX;
 
         for(int k= start; k< end; k++){
-            ans= min(ans, (helper(arr, start, k, dp).second)* helper(arr, k+ 1, end, dp).second+ helper(arr, start, k, dp).first+ helper(arr, k+ 1, end, dp).first);
+            auto left= helper(arr, start, k, dp);
+            auto right= helper(arr, k+ 1, end, dp);
+            ans= min(ans, left.second* right.second+ left.first+ right.first);
         }
 
         int maxVal= INT_MIN;
@@ -29,6 +31,7 @@ public:
         
         int n= arr.size();
         vector<vector<pair<int, int>>> dp(n, vector<pair<int, int>>(n, {-1, -1}));
+
         return helper(arr, 0, n-1, dp).first;        
     }
 };
